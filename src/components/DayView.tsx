@@ -12,7 +12,7 @@ import {
 import { WordleGame } from "@/src/components/WordleGame";
 
 export function DayView({ day }: { day: number }) {
-  const { isDayAvailable, isDayCompleted, unlockDay, loading } =
+  const { isDayAvailable, isDayCompleted, unlockDay, loading, isDemo } =
     useAdventProgress();
   const content = getDayContent(day);
   const [justWon, setJustWon] = useState(false);
@@ -73,6 +73,11 @@ export function DayView({ day }: { day: number }) {
 
   return (
     <div className="max-w-lg mx-auto bg-black border-2 border-fuchsia-500 rounded-lg p-5 shadow-[0_0_30px_#d946ef]">
+      {isDemo && (
+        <p className="font-mono text-xs text-black bg-yellow-400 rounded p-2 mb-3 text-center font-bold">
+          🧪 MODE DEMO — no es desa a Supabase
+        </p>
+      )}
       <h2 className="font-mono text-xl font-bold text-cyan-300 mb-2">
         DIA {day}
       </h2>

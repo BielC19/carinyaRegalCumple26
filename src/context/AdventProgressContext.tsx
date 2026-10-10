@@ -19,6 +19,8 @@ interface AdventProgressContextValue {
   unlockedDays: number[];
   loading: boolean;
   error: string | null;
+  // Mode demo (?demo=1): tot obert per provar, desbloquejos només locals.
+  isDemo: boolean;
   unlockDay: (day: number) => Promise<void>;
   isDayAvailable: (day: number, now?: Date) => boolean;
   isDayCompleted: (day: number) => boolean;
@@ -46,6 +48,18 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
   const [unlockedDays, setUnlockedDays] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
+
+  // Mode demo: ?demo=1 a la URL (només client, compatible amb Static Export).
+  // En demo tot està obert i els desbloquejos NO es desen a Supabase.
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      setIsDemo(params.get("demo") === "1");
+    } catch {
+      setIsDemo(false);
+    }
+  }, []);
 
   // Càrrega inicial: SELECT fila id:1
   useEffect(() => {
@@ -88,16 +102,18 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
   // Disponible si:
   // 1) data actual >= 30oct + (day-1)  (cada dia se n'obre un de nou)
   // 2) seqüencial: dia 1 sempre que arribi la data; dia N>1 només si N-1 completat
+  // En mode demo (?demo=1): tot obert sense restriccions.
   const isDayAvailable = useCallback(
     (day: number, now: Date = new Date()) => {
       if (day < 1 || day > 24) return false;
+      if (isDemo) return true;
       const today = startOfDay(now);
       const unlockDate = startOfDay(getUnlockDateForDay(day));
       if (today < unlockDate) return false;
       if (day === 1) return true;
       return unlockedDays.includes(day - 1);
     },
-    [unlockedDays]
+    [unlockedDays, isDemo]
   );
 
   const unlockDay = useCallback(
@@ -106,6 +122,8 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
       const next = [...unlockedDays, day].sort((a, b) => a - b);
       // Optimista: actualitza UI de seguida
       setUnlockedDays(next);
+      // En demo no toquem Supabase: progrés només local per no embrutar el regal.
+      if (isDemo) return;
       try {
         const { error: supaError } = await supabase
           .from("advent_progress")
@@ -120,7 +138,7 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
         setError("No s'ha pogut desar a Supabase. Progrés només local.");
       }
     },
-    [unlockedDays]
+    [unlockedDays, isDemo]
   );
 
   const value = useMemo(
@@ -128,12 +146,21 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
       unlockedDays,
       loading,
       error,
+      isDemo,
       unlockDay,
       isDayAvailable,
       isDayCompleted,
       getUnlockDateForDay,
     }),
-    [unlockedDays, loading, error, unlockDay, isDayAvailable, isDayCompleted]
+    [
+      unlockedDays,
+      loading,
+      error,
+      isDemo,
+      unlockDay,
+      isDayAvailable,
+      isDayCompleted,
+    ]
   );
 
   return (

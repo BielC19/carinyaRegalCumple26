@@ -8,7 +8,8 @@ import { DayModal } from "@/src/components/DayModal";
 import { getDayContent } from "@/src/data/adventDays";
 
 export function AdventGrid() {
-  const { isDayAvailable, isDayCompleted, loading, error } = useAdventProgress();
+  const { isDayAvailable, isDayCompleted, loading, error, isDemo } =
+    useAdventProgress();
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -31,6 +32,15 @@ export function AdventGrid() {
 
   return (
     <>
+      {isDemo && (
+        <p className="text-center font-mono text-xs text-black bg-yellow-400 rounded p-2 mb-4 max-w-xl mx-auto font-bold">
+          🧪 MODE DEMO (?demo=1) — tot obert per provar. Els desbloquejos NO
+          es desen.{" "}
+          <a href="./" className="underline">
+            Sortir del demo
+          </a>
+        </p>
+      )}
       {error && (
         <p className="text-center font-mono text-xs text-yellow-400 border border-yellow-500/40 rounded p-2 mb-4 max-w-xl mx-auto">
           ⚠ {error}
