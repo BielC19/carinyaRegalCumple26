@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Calendari d'Advent Cyberpunk 💜",
-  description: "Regal d'aniversari: 24 dies, 24 wordles, 24 sorpreses",
+  title: "Calendari d'Advent Carinya 💛",
+  description: "Regal d'aniversari: 24 dies, 24 jocs, 24 sorpreses",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
