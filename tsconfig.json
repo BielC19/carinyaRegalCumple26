@@ -13,6 +13,9 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
+    // Evita que TS carregui carpetes trencades "@types/* 2" que npm 11
+    // genera de vegades a node_modules (error TS2688 al CI/local).
+    "types": ["node", "react", "react-dom"],
     "plugins": [
       {
         "name": "next"
