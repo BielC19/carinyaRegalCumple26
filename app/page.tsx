@@ -12,7 +12,7 @@ export default function Home() {
           CALENDARI D&apos;ADVENT PER LA CLARA
         </h1>
         <p className="text-sm sm:text-base text-yellow-300 mt-2 tracking-widest">
-          ★ PER LA CARINYA EIDICO ANIVERSARI  · 24 DIES · 24 WORDLES ★
+          ★ PER LA CARINYA EIDICO ANIVERSARI  · 26 DIES · 26 WORDLES ★
         </p>
         <p className="text-xs text-zinc-500 mt-3 max-w-xl mx-auto">
           Cada dia a partir de que tinguis 19 anys es desbloqueja un de

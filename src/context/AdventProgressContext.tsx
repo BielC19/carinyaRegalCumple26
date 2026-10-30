@@ -105,7 +105,7 @@ export function AdventProgressProvider({ children }: { children: ReactNode }) {
   // En mode demo (?demo=1): tot obert sense restriccions.
   const isDayAvailable = useCallback(
     (day: number, now: Date = new Date()) => {
-      if (day < 1 || day > 24) return false;
+      if (day < 1 || day > 26) return false;
       if (isDemo) return true;
       const today = startOfDay(now);
       const unlockDate = startOfDay(getUnlockDateForDay(day));

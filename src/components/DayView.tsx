@@ -24,10 +24,10 @@ export function DayView({ day }: { day: number }) {
     setUnlockLabel(getUnlockDateForDay(day).toLocaleDateString("ca-ES"));
   }, [day]);
 
-  if (!content || day < 1 || day > 24) {
+  if (!content || day < 1 || day > 26) {
     return (
       <div className="text-center font-mono text-pink-500 mt-10">
-        Dia inexistent (1-24).
+        Dia inexistent (1-26).
         <br />
         <Link href="/" className="underline text-cyan-300">
           Tornar

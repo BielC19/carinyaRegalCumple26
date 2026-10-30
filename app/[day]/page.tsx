@@ -1,8 +1,8 @@
 import { DayView } from "@/src/components/DayView";
 
-// Obligatori per Static Export a GitHub Pages: prerenderitza les 24 pàgines.
+// Obligatori per Static Export a GitHub Pages: prerenderitza les 26 pàgines.
 export function generateStaticParams() {
-  return Array.from({ length: 24 }, (_, i) => ({
+  return Array.from({ length: 26 }, (_, i) => ({
     day: String(i + 1),
   }));
 }
